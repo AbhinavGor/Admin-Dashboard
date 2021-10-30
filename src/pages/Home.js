@@ -1,9 +1,9 @@
 import React from 'react'
-
+import Login from './Login'
 function Home() {
     return (
         <div className='home'>
-            <h1>home</h1>
+            <Login />
         </div>
     )
 }
