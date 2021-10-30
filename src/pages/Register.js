@@ -1,8 +1,12 @@
+import {Redirect} from 'react-router-dom';
+import Cookies from 'js-cookie';
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
 var axios = require('axios');
 var qs = require('qs');
+
 
 function Login(props) {
     const [email, setEmail] = useState('');
@@ -11,8 +15,13 @@ function Login(props) {
     const [name, setName] = useState("");
     const [dept, setDept] = useState("");
 
+    const history = useHistory();
     function validateForm() {
         return email.length > 0 && password.length > 0 && password === repPass;
+    }
+
+    function SaveCredentials(token) {
+        Cookies.set("token", token)
     }
 
     async function handleSubmit(event) {
@@ -35,13 +44,16 @@ function Login(props) {
               
               axios(config)
               .then(function (response) {
-                console.log(JSON.stringify(response.data));
+                SaveCredentials(response.token);
+                history.push("/dashboard");
               })
               .catch(function (error) {
                 console.log(error);
+                history.push("/");
               });
         } catch (error) {
             alert(error.message);
+            history.push("/");
         }
     }
 

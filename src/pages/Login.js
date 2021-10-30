@@ -1,45 +1,58 @@
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { useHistory } from 'react-router';
 var axios = require('axios');
 var qs = require('qs');
 
 function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [responseCode, setReponseCode] = useState(0);
+
+    const history = useHistory();
 
     function validateForm() {
         return email.length > 0 && password.length > 0;
     }
 
-    async function handleSubmit(event) {
+
+    function SaveCredentials(token, log) {
+        Cookies.set("token", token)
+        Cookies.set("isLoggedIn", log)
+    }
+
+    function handleSubmit(event) {
         event.preventDefault();
 
-        try {
+        var data = qs.stringify({
+            email, password 
+        });
 
-            var data = qs.stringify({
-                email, password 
-              });
+        var config = {
+            method: 'post',
+            url: 'http://login.thepcvit.com/login',
+            headers: { 
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data : data
+        };
 
-              var config = {
-                method: 'post',
-                url: 'http://login.thepcvit.com/login',
-                headers: { 
-                  'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data : data
-              };
-              
-              axios(config)
-              .then(function (response) {
-                console.log(JSON.stringify(response.data));
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-        } catch (error) {
-            alert(error.message);
-        }
+        axios(config).then((res) => {
+            setReponseCode(1);
+            SaveCredentials(res.token, responseCode);
+            history.push('/dashboard');
+            console.log("Logged In!");
+        }).catch(e => console.log(e));
+        
+        // if(responseCode === 1){
+        //     history.push('/dashboard');
+        // }else{
+        //     history.push('/');
+        // }
+        
     }
 
     return (
