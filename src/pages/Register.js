@@ -1,53 +1,99 @@
-import React from 'react'
-import './login.css'
+import React, { useState } from 'react'
+import { Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+var axios = require('axios');
+var qs = require('qs');
 
-const Field = React.forwardRef(({label, type}, ref) => {
+function Login(props) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [repPass, setRepPass] = useState('');
+    const [name, setName] = useState("");
+    const [dept, setDept] = useState("");
+
+    function validateForm() {
+        return email.length > 0 && password.length > 0 && password === repPass;
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        try {
+
+            var data = qs.stringify({
+                name, email, password, department: dept
+              });
+
+              var config = {
+                method: 'post',
+                url: 'http://login.thepcvit.com/signup',
+                headers: { 
+                  'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data : data
+              };
+              
+              axios(config)
+              .then(function (response) {
+                console.log(JSON.stringify(response.data));
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+
     return (
-        <div>
-            <label className='labelStyle'>{label}</label>
-            <input ref={ref} type={type} className='inputStyle' />
+        <div className="login">
+            <Form onSubmit={handleSubmit}>
+                <Form.Group size="lg" controlId="name">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                    />
+                </Form.Group>
+                <Form.Group size='lg' controlId="email">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        autoFocus
+                        type="email"
+                        value={email}
+                        onChange={e =>setEmail(e.target.value)}
+                    />
+                </Form.Group>
+                <Form.Group size="lg" controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                    />
+                </Form.Group>
+                <Form.Group size="lg" controlId="repPassword">
+                    <Form.Label>Repeat Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        value={repPass}
+                        onChange={e => setRepPass(e.target.value)}
+                    />
+                </Form.Group>
+                <Form.Group size="lg" controlId="dept">
+                    <Form.Label>Department</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={dept}
+                        onChange={e => setDept(e.target.value)}
+                    />
+                </Form.Group>
+                <Button block size="lg" type="submit" disabled={!validateForm()}>Register</Button>
+                <Link to='/'>Login instead</Link>
+            </Form>
         </div>
-    )
-});
-
-const Form = ({onSubmit}) => {
-    const usernameRef = React.useRef();
-    const passwordRef = React.useRef();
-    const passwordRepeatRef = React.useRef();
-    const handleSubmit = e => {
-        e.preventDefault();
-        const data = {
-            username: usernameRef.current.value,
-            password: passwordRef.current.value
-        };
-        onSubmit(data);
-    };
-
-    return (
-        <form className='formStyle' onSubmit={handleSubmit}>
-            <Field ref={usernameRef} label="Username: " type="text" />
-            <Field ref={passwordRef} label="Password: " type="password"/>
-            <Field ref={passwordRepeatRef} label="PasswordRepeat: " type="passwordRepeat"/>
-            <div>
-                <input classname='submitStyle' type="submit" value="Submit"/>
-            </div>
-        </form>
     )
 }
 
-
-function Register(props) {
-    const handleSubmit = data => {
-        const json = JSON.stringify(data, null, 4);
-        console.clear();
-        console.log(json);
-    };
-
-    return (
-        <div className='appStyle'>
-            <Form onSubmit={handleSubmit} />
-        </div>
-    )
-}
-
-export default Register
+export default Login

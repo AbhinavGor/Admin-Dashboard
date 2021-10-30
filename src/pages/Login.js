@@ -1,8 +1,10 @@
-import axios from 'axios';
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+var axios = require('axios');
+var qs = require('qs');
 
-function Login() {
+function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -14,14 +16,27 @@ function Login() {
         event.preventDefault();
 
         try {
-            const req_body = JSON.stringify({
-                email, password
-            });
 
-            console.log(req_body);
+            var data = qs.stringify({
+                email, password 
+              });
 
-            let response = await axios.post('http://login.thepcvit.com/login', req_body);
-            console.log(response);
+              var config = {
+                method: 'post',
+                url: 'http://login.thepcvit.com/login',
+                headers: { 
+                  'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data : data
+              };
+              
+              axios(config)
+              .then(function (response) {
+                console.log(JSON.stringify(response.data));
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
         } catch (error) {
             alert(error.message);
         }
@@ -48,12 +63,8 @@ function Login() {
                     />
                 </Form.Group>
                 <Button block size="lg" type="submit" disabled={!validateForm()}>Login</Button>
+                <Link to='/register'>Register</Link>
             </Form>
-        </div>
-    )
-    return (
-        <div>
-            
         </div>
     )
 }
