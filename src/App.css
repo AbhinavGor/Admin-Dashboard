@@ -10,6 +10,8 @@
 .home, .reports, .products {
     display: flex;
     height: 80vh;
+    justify-content: center;
+    widows: 100%;
     align-items: center;
     font-size: 3rem;
 }
