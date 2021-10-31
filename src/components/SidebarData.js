@@ -4,6 +4,21 @@ import * as AiIcons from 'react-icons/ai'
 
 export const SidebarData = [
     {
+        title: 'Register',
+        path: '/register',
+        icon: <FaIcons.FaUserPlus />,
+        cName: 'nav-text',
+    },
+    {
+        title: 'Login',
+        path: '/login',
+        icon: <FaIcons.FaSignInAlt />,
+        cName: 'nav-text',
+    }
+]
+
+export const AuthSidebarData = [
+    {
         title: 'Home',
         path: '/',
         icon: <AiIcons.AiFillHome />,
