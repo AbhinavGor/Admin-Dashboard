@@ -45,6 +45,7 @@ function Login(props) {
             setReponseCode(1);
             SaveCredentials(res.data.token, responseCode);
             history.push('/dashboard');
+            window.location.reload();
             console.log("Logged In!");
         }).catch(e => console.log(e));
     }

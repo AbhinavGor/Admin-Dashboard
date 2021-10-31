@@ -21,9 +21,9 @@ function App() {
         <Navbar />
         <Switch>
           <Route path="/" exact>{isLoggedIn ? <Dashboard /> : <Home />}</Route>
-          <Route path="/dashboard"><Dashboard /></Route>
-          <Route path="/manageusers"><ManageUsers /></Route>
-          <Route path="/twearchive"><TWEArchive /></Route>
+          <Route path="/dashboard">{isLoggedIn ? <Dashboard /> : <Home />}</Route>
+          <Route path="/manageusers">{!isLoggedIn ? <ManageUsers /> : <Home />}</Route>
+          <Route path="/twearchive">{!isLoggedIn ? <TWEArchive /> : <Home />}</Route>
           <Route path="/register">{isLoggedIn?<Dashboard /> : <Register />}</Route>
           <Route path="/login">{isLoggedIn?<Dashboard /> : <Login />}</Route>
         </Switch>

@@ -6,16 +6,22 @@ import { Link } from 'react-router-dom'
 import { AuthSidebarData, SidebarData } from './SidebarData'
 import { IconContext } from 'react-icons/lib'
 import Cookies from 'js-cookie'
+import { Button } from 'react-bootstrap'
 
 function Navbar() {
     const [sidebar, setSidebar] = useState(false);
 
     const toggleSidebar = () => setSidebar(!sidebar);
-    
-    const isLoggedIn = Cookies.get('isLoggedIn') === 1;
+
+    function handleSignOut(e){
+        e.preventDefault();
+        Cookies.remove('token');
+        window.location.reload();
+    }
 
     let sidebarOptions;
-    if(Cookies.get('token')){
+    let token = Cookies.get('token');
+    if(token){
         sidebarOptions = AuthSidebarData;
     }else{
         sidebarOptions = SidebarData;
@@ -41,6 +47,14 @@ function Navbar() {
                         )
                     })}
                 </ul>
+                {/* {
+                    () => {
+                        if(Cookies.get('token').length > 0) return <button block type="submit" size="lg" className='sign-out-but' onClick={handleSignOut}>Sign Out</button>
+                        console.log(Cookies.get('token').length);
+                        
+                    }
+                } */}
+                <button block type="submit" size="lg" className='sign-out-but' onClick={handleSignOut}>Sign Out</button>
             </nav>
         </IconContext.Provider>
         </>
