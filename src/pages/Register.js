@@ -36,7 +36,7 @@ function Login(props) {
 
               var config = {
                 method: 'post',
-                url: 'http://login.thepcvit.com/signup',
+                url: 'https://login-thepc.herokuapp.com/signup',
                 headers: { 
                   'Content-Type': 'application/x-www-form-urlencoded'
                 },

@@ -13,7 +13,7 @@ function ManageUsers() {
 
     React.useEffect(() => {
         const getUsers = async () => {
-            const res = await axios.get("https://login.thepcvit.com/users",{
+            const res = await axios.get("https://login-thepc.herokuapp.com/users",{
                 headers: {
                     'Authorization': "Bearer " + Cookies.get('token').toString()
                 }
