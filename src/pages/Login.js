@@ -5,6 +5,8 @@ import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router';
+import Loader from "react-loader-spinner";
+
 var axios = require('axios');
 var qs = require('qs');
 
@@ -12,6 +14,7 @@ function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [responseCode, setReponseCode] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     const history = useHistory();
 
@@ -27,6 +30,7 @@ function Login(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
+        setLoading(true);
 
         var data = qs.stringify({
             email, password 
@@ -34,7 +38,7 @@ function Login(props) {
 
         var config = {
             method: 'post',
-            url: 'http://login.thepcvit.com/login',
+            url: 'https://login-thepc.herokuapp.com/login',
             headers: { 
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -50,35 +54,49 @@ function Login(props) {
         }).catch(e => console.log(e));
     }
 
-    return (
-        <div className="container">
-            <Form className="auth-form" onSubmit={handleSubmit}>
-                <Form.Group className="auth-form-group" size='lg' controlId="email">
-                    <Form.Label className="form-label">Email</Form.Label>
-                    <Form.Control
-                        className="auth-input"
-                        autoFocus
-                        type="email"
-                        value={email}
-                        onChange={e =>setEmail(e.target.value)}
+    if(!loading){
+        return (
+            <div className="container">
+                <Form className="auth-form" onSubmit={handleSubmit}>
+                    <Form.Group className="auth-form-group" size='lg' controlId="email">
+                        <Form.Label className="form-label">Email</Form.Label>
+                        <Form.Control
+                            className="auth-input"
+                            autoFocus
+                            type="email"
+                            value={email}
+                            onChange={e =>setEmail(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group  className="auth-form-group" size="lg" controlId="password">
+                        <Form.Label className="form-label">Password</Form.Label>
+                        <Form.Control
+                            className="auth-input"
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                        />
+                    </Form.Group>
+                    <div className="auth-options">
+                        <Link to='/register'>Register instead</Link>
+                        <Button className="login-button" block size="lg" type="submit" disabled={!validateForm()}>Login</Button>
+                    </div>
+                </Form>
+            </div>
+        )
+    }else{
+        return (
+            <div className='container'>
+                <Loader
+                        type="Puff"
+                        color="#B6083C"
+                        height={100}
+                        width={100}
+                        timeout={8000}
                     />
-                </Form.Group>
-                <Form.Group  className="auth-form-group" size="lg" controlId="password">
-                    <Form.Label className="form-label">Password</Form.Label>
-                    <Form.Control
-                        className="auth-input"
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                    />
-                </Form.Group>
-                <div className="auth-options">
-                    <Link to='/register'>Register instead</Link>
-                    <Button className="button" block size="lg" type="submit" disabled={!validateForm()}>Login</Button>
-                </div>
-            </Form>
-        </div>
-    )
+            </div>
+        )
+    }
 }
 
 export default Login

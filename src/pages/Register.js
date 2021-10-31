@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
+import Loader from "react-loader-spinner";
 var axios = require('axios');
 var qs = require('qs');
 
@@ -15,6 +16,7 @@ function Login(props) {
     const [repPass, setRepPass] = useState('');
     const [name, setName] = useState("");
     const [dept, setDept] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const history = useHistory();
     function validateForm() {
@@ -27,6 +29,7 @@ function Login(props) {
 
     async function handleSubmit(event) {
         event.preventDefault();
+        setLoading(true);
 
         try {
 
@@ -36,7 +39,7 @@ function Login(props) {
 
               var config = {
                 method: 'post',
-                url: 'http://login.thepcvit.com/signup',
+                url: 'https://login-thepc.herokuapp.com/signup',
                 headers: { 
                   'Content-Type': 'application/x-www-form-urlencoded'
                 },
@@ -58,62 +61,76 @@ function Login(props) {
         }
     }
 
-    return (
-        <div className="container">
-            <Form className="auth-form" onSubmit={handleSubmit}>
-                <Form.Group className="auth-form-group" size="lg" controlId="name">
-                    <Form.Label className="form-label">Name</Form.Label>
-                    <Form.Control
-                        className="auth-input"
-                        type="text"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
+    if(!loading){
+        return (
+            <div className="container">
+                <Form className="auth-form" onSubmit={handleSubmit}>
+                    <Form.Group className="auth-form-group" size="lg" controlId="name">
+                        <Form.Label className="form-label">Name</Form.Label>
+                        <Form.Control
+                            className="auth-input"
+                            type="text"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group className="auth-form-group" size='lg' controlId="email">
+                        <Form.Label className="form-label">Email</Form.Label>
+                        <Form.Control
+                            autoFocus
+                            className="auth-input"
+                            type="email"
+                            value={email}
+                            onChange={e =>setEmail(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group className="auth-form-group" size="lg" controlId="password">
+                        <Form.Label className="form-label">Password</Form.Label>
+                        <Form.Control
+                            className="auth-input"
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group className="auth-form-group" size="lg" controlId="repPassword">
+                        <Form.Label className="form-label">Repeat Password</Form.Label>
+                        <Form.Control
+                            className="auth-input"
+                            type="password"
+                            value={repPass}
+                            onChange={e => setRepPass(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group className="auth-form-group" size="lg" controlId="dept">
+                        <Form.Label className="form-label">Department</Form.Label>
+                        <Form.Control
+                            className="auth-input"
+                            type="text"
+                            value={dept}
+                            onChange={e => setDept(e.target.value)}
+                        />
+                    </Form.Group>
+                    <div className="auth-options">
+                        <Link to="/login">I already have an account</Link>
+                        <Button className="button" block size="lg" type="submit" disabled={!validateForm()}>Register</Button>
+                    </div>
+                </Form>
+            </div>
+        )
+    }else{
+        return (
+            <div className='container'>
+                <Loader
+                        type="Puff"
+                        color="#B6083C"
+                        height={100}
+                        width={100}
+                        timeout={8000}
                     />
-                </Form.Group>
-                <Form.Group className="auth-form-group" size='lg' controlId="email">
-                    <Form.Label className="form-label">Email</Form.Label>
-                    <Form.Control
-                        autoFocus
-                        className="auth-input"
-                        type="email"
-                        value={email}
-                        onChange={e =>setEmail(e.target.value)}
-                    />
-                </Form.Group>
-                <Form.Group className="auth-form-group" size="lg" controlId="password">
-                    <Form.Label className="form-label">Password</Form.Label>
-                    <Form.Control
-                        className="auth-input"
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                    />
-                </Form.Group>
-                <Form.Group className="auth-form-group" size="lg" controlId="repPassword">
-                    <Form.Label className="form-label">Repeat Password</Form.Label>
-                    <Form.Control
-                        className="auth-input"
-                        type="password"
-                        value={repPass}
-                        onChange={e => setRepPass(e.target.value)}
-                    />
-                </Form.Group>
-                <Form.Group className="auth-form-group" size="lg" controlId="dept">
-                    <Form.Label className="form-label">Department</Form.Label>
-                    <Form.Control
-                        className="auth-input"
-                        type="text"
-                        value={dept}
-                        onChange={e => setDept(e.target.value)}
-                    />
-                </Form.Group>
-                <div className="auth-options">
-                    <Link to="/login">I already have an account</Link>
-                    <Button className="button" block size="lg" type="submit" disabled={!validateForm()}>Register</Button>
-                </div>
-            </Form>
-        </div>
-    )
+            </div>
+        )
+    }
 }
 
 export default Login
