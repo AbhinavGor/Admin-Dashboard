@@ -1,4 +1,5 @@
-import {Redirect} from 'react-router-dom';
+import '../App.css';
+import '../styles/Auth.css';
 import Cookies from 'js-cookie';
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap';
@@ -58,51 +59,58 @@ function Login(props) {
     }
 
     return (
-        <div className="login">
-            <Form onSubmit={handleSubmit}>
-                <Form.Group size="lg" controlId="name">
-                    <Form.Label>Name</Form.Label>
+        <div className="container">
+            <Form className="auth-form" onSubmit={handleSubmit}>
+                <Form.Group className="auth-form-group" size="lg" controlId="name">
+                    <Form.Label className="form-label">Name</Form.Label>
                     <Form.Control
+                        className="auth-input"
                         type="text"
                         value={name}
                         onChange={e => setName(e.target.value)}
                     />
                 </Form.Group>
-                <Form.Group size='lg' controlId="email">
-                    <Form.Label>Email</Form.Label>
+                <Form.Group className="auth-form-group" size='lg' controlId="email">
+                    <Form.Label className="form-label">Email</Form.Label>
                     <Form.Control
                         autoFocus
+                        className="auth-input"
                         type="email"
                         value={email}
                         onChange={e =>setEmail(e.target.value)}
                     />
                 </Form.Group>
-                <Form.Group size="lg" controlId="password">
-                    <Form.Label>Password</Form.Label>
+                <Form.Group className="auth-form-group" size="lg" controlId="password">
+                    <Form.Label className="form-label">Password</Form.Label>
                     <Form.Control
+                        className="auth-input"
                         type="password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Form.Group size="lg" controlId="repPassword">
-                    <Form.Label>Repeat Password</Form.Label>
+                <Form.Group className="auth-form-group" size="lg" controlId="repPassword">
+                    <Form.Label className="form-label">Repeat Password</Form.Label>
                     <Form.Control
+                        className="auth-input"
                         type="password"
                         value={repPass}
                         onChange={e => setRepPass(e.target.value)}
                     />
                 </Form.Group>
-                <Form.Group size="lg" controlId="dept">
-                    <Form.Label>Department</Form.Label>
+                <Form.Group className="auth-form-group" size="lg" controlId="dept">
+                    <Form.Label className="form-label">Department</Form.Label>
                     <Form.Control
+                        className="auth-input"
                         type="text"
                         value={dept}
                         onChange={e => setDept(e.target.value)}
                     />
                 </Form.Group>
-                <Button block size="lg" type="submit" disabled={!validateForm()}>Register</Button>
-                <Link to='/'>Login instead</Link>
+                <div className="auth-options">
+                    <Link to="/login">I already have an account</Link>
+                    <Button className="button" block size="lg" type="submit" disabled={!validateForm()}>Register</Button>
+                </div>
             </Form>
         </div>
     )

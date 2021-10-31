@@ -1,0 +1,38 @@
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    /* background-color: blue; */
+    padding: 20px;
+    font-size: 1.4em;
+}
+
+.auth-form-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* background-color: pink; */
+}
+
+.auth-input {
+    font-size: 1em;
+    margin: 4px 10px;
+}
+
+.form-label {
+    /* font-size: 2em; */
+    align-self: center;
+}
+
+.auth-options {
+    font-size: 0.8em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 4px 0;
+}
+
+.button {
+    font-size: 1em;
+    padding: 2px 10px;
+}
+

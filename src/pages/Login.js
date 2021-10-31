@@ -1,7 +1,8 @@
+import '../App.css'
+import '../styles/Auth.css'
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import {Redirect} from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router';
 var axios = require('axios');
@@ -42,41 +43,38 @@ function Login(props) {
 
         axios(config).then((res) => {
             setReponseCode(1);
-            SaveCredentials(res.token, responseCode);
+            SaveCredentials(res.data.token, responseCode);
             history.push('/dashboard');
             console.log("Logged In!");
         }).catch(e => console.log(e));
-        
-        // if(responseCode === 1){
-        //     history.push('/dashboard');
-        // }else{
-        //     history.push('/');
-        // }
-        
     }
 
     return (
-        <div className="login">
-            <Form onSubmit={handleSubmit}>
-                <Form.Group size='lg' controlId="email">
-                    <Form.Label>Email</Form.Label>
+        <div className="container">
+            <Form className="auth-form" onSubmit={handleSubmit}>
+                <Form.Group className="auth-form-group" size='lg' controlId="email">
+                    <Form.Label className="form-label">Email</Form.Label>
                     <Form.Control
+                        className="auth-input"
                         autoFocus
                         type="email"
                         value={email}
                         onChange={e =>setEmail(e.target.value)}
                     />
                 </Form.Group>
-                <Form.Group size="lg" controlId="password">
-                    <Form.Label>Password</Form.Label>
+                <Form.Group  className="auth-form-group" size="lg" controlId="password">
+                    <Form.Label className="form-label">Password</Form.Label>
                     <Form.Control
+                        className="auth-input"
                         type="password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Button block size="lg" type="submit" disabled={!validateForm()}>Login</Button>
-                <Link to='/register'>Register</Link>
+                <div className="auth-options">
+                    <Link to='/register'>Register instead</Link>
+                    <Button className="button" block size="lg" type="submit" disabled={!validateForm()}>Login</Button>
+                </div>
             </Form>
         </div>
     )
