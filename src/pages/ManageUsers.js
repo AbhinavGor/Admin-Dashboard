@@ -10,6 +10,7 @@ import Loader from "react-loader-spinner";
 function ManageUsers() {
     const [users, setUsers] = useState();
     const [loading, setLoading] = useState(true);
+    const [searchEmail, setSearchEmail] = useState('');
 
     React.useEffect(() => {
         const getUsers = async () => {
@@ -26,6 +27,11 @@ function ManageUsers() {
         getUsers();
     }, []);
 
+    function searchWithEmail() {
+        setSearchEmail('');
+        alert("This feature is under development!");
+    }
+
     if(loading){
         return (
             <div className="container">
@@ -34,13 +40,17 @@ function ManageUsers() {
                     color="#B6083C"
                     height={100}
                     width={100}
-                    timeout={8000} //3 secs
+                    timeout={8000}
                 />
             </div>
         )
     }else{
         return (
             <div className='container cardLayout'>
+                <div className="search-box">
+                    <input value={searchEmail} onChange={val => {setSearchEmail(val.target.value); console.log(val)}} type="text" placceholder="Enter query email" className="query-email"/>
+                    <button className="search-button" onClick={searchWithEmail}>Search</button>
+                </div>
                 {users.map(user => {
                     return <UserCard key={user._id} name={user.name} email={user.email} />
                 })}
