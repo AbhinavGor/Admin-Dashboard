@@ -90,6 +90,7 @@ hr {
     color: white;
     font-weight: 700;
 }
+
 @media only screen and (max-width: 820px){
     .card {
         width: 90vw;
@@ -149,5 +150,19 @@ hr {
         height: fit-content;
         flex-direction: column;
         top: 1%;
+    }
+
+    .search-box {
+        width: 80%;
+    }
+    
+    .query-email {
+        width: 60vw;
+    }
+
+    .search-button {
+        height: 6vh;
+        width: 16vw;
+        
     }
 }
