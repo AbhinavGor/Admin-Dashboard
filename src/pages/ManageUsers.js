@@ -48,11 +48,11 @@ function ManageUsers() {
         return (
             <div className='container cardLayout'>
                 <div className="search-box">
-                    <input value={searchEmail} onChange={val => {setSearchEmail(val.target.value); console.log(val)}} type="text" placceholder="Enter query email" className="query-email"/>
+                    <input value={searchEmail} onChange={val => {setSearchEmail(val.target.value); console.log(val)}} type="text" placeholder="Enter query email" className="query-email"/>
                     <button className="search-button" onClick={searchWithEmail}>Search</button>
                 </div>
                 {users.map(user => {
-                    return <UserCard key={user._id} name={user.name} email={user.email} />
+                    return <UserCard key={user._id} user_id = {user._id} isDisabled={user.isDisabled} name={user.name} email={user.email} />
                 })}
             </div>
         )
